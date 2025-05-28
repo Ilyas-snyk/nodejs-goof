@@ -9,7 +9,6 @@ on:
 jobs:
   build:
     name: Test and build
-    environment: snyk-npm
     runs-on: ubuntu-latest
 
     strategy:
@@ -29,16 +28,13 @@ jobs:
         run: |
           npm install snyk -g
           npm install snyk-to-html -g
-          snyk auth ${{ secrets.SNYK_AUTH }}
+          snyk auth "${{ secrets.SNYK_AUTH }}"
 
       - name: Snyk Open Source
-        run: |
-          snyk monitor
+        run: snyk monitor
 
       - name: Snyk Code
-        run: |
-          snyk code test || true
+        run: snyk code test || true
 
       - name: Snyk IaC
-        run: |
-          snyk iac test --report || true
+        run: snyk iac test --report || true
